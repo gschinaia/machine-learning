@@ -3,7 +3,7 @@
 ********************************************************************************
 program def sumindex, byable(recall, noheader)
 	syntax varlist(numeric) [if] [in], GENerate(name) ///
-		[ Base(string asis) Replace NOPairwise NORMalise ]
+		[ Base(string asis) Replace NOPairwise NORMalise NOSingle]
 
 	****************************************************************************
 	*** A) PRElIMINARIES ***
@@ -95,7 +95,11 @@ program def sumindex, byable(recall, noheader)
 	else {
 		** Temporary Matrices
 		tempname cov invcov unity weights
-
+		
+		local A = ""
+		forvalues n = 1/`N' {
+			local A = "`A' `a`n''"
+		}
 		** Make Covariance Matrix
 		if "`nopairwise'" == "" {
 			matrix `cov' = I(`N')
@@ -115,10 +119,6 @@ program def sumindex, byable(recall, noheader)
 			}
 		}
 		else {
-			local A = ""
-			forvalues n = 1/`N' {
-				local A = "`A' `a`n''"
-			}
 			if "`normalise'" == "" {
 				qui correl `A' if `touse'
 			}
@@ -153,7 +153,20 @@ program def sumindex, byable(recall, noheader)
 		qui egen 	`d' = rowtotal(`B')	if `touse'
 		qui egen 	`e' = rowtotal(`C') if `touse'
 		qui gen 	`f' = `d' / `e'		if `touse'
+		
+		** No single variable observations (Optional)
+		if "`nosingle'" != "" {
+			tempvar g
+			qui egen 	`g' = rownonmiss(`A') if `touse'
+			qui replace `f' = .m 			  if `g' == 1 
+			qui count 						  if `g' == 1 
 
+			local lbl_error = "warning: `r(N)' observations with only one non-missing component;"	///
+						+ "programme will return missing `generate' for these observations"
+			display "`lbl_error'"
+		}
+		
+		
 		** Normalise (Optional)
 		if "`normalise'" != "" {
 			qui summarize `f' if `tousebase'
