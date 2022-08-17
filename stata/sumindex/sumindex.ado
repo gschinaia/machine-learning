@@ -3,7 +3,7 @@
 ********************************************************************************
 program def sumindex, byable(recall, noheader)
 	syntax varlist(numeric) [if] [in], GENerate(name) ///
-		[ Base(string asis) Replace NOPairwise NORMalise NOSingle]
+		[ Base(string asis) Replace NOPairwise NORMalise NOSingle ]
 
 	****************************************************************************
 	*** A) PRElIMINARIES ***
