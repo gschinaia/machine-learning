@@ -3,7 +3,7 @@
 ********************************************************************************
 program def sumindex, byable(recall, noheader)
 	syntax varlist(numeric) [if] [in], GENerate(name) ///
-		[ Base(string asis) Replace NOPairwise NORMalise NOSingle ]
+		[ Base(string asis) Replace NOPairwise NORMalise NOSingle COVNormalise ]
 
 	****************************************************************************
 	*** A) PRElIMINARIES ***
@@ -106,7 +106,8 @@ program def sumindex, byable(recall, noheader)
 			forvalues i = 1/`N' {
 				forvalues j = 1/`N' {
 					if `i' >= `j' {
-						if "`normalise'" == "" {
+						* if "`normalise'" == "" {
+						if "`covnormalise'" == "" {
 							qui correl `a`i'' `a`j'' if `touse', covariance
 						}
 						else {
@@ -119,7 +120,8 @@ program def sumindex, byable(recall, noheader)
 			}
 		}
 		else {
-			if "`normalise'" == "" {
+			* if "`normalise'" == "" {
+			if "`covnormalise'" == "" {
 				qui correl `A' if `touse'
 			}
 			else {
@@ -165,7 +167,6 @@ program def sumindex, byable(recall, noheader)
 						+ "programme will return missing `generate' for these observations"
 			display "`lbl_error'"
 		}
-		
 		
 		** Normalise (Optional)
 		if "`normalise'" != "" {
