@@ -1,5 +1,5 @@
 {smcl}
-{* 17feb2021} {...}
+{* 16jan2023} {...}
 
 {hline}
 help for {hi:sumindex}
@@ -40,12 +40,18 @@ The {cmdab:nop:airwise} option allows for the calculation of the covariance matr
 {cmdab:r:eplace} specifies that if the variable {it:varname} already exists, then {cmd:sumindex} will replace the values in the variable.
 
 {p 4 4 2}
-{cmdab:norm:alise} specifies that the index is calculated i) using the base group mean to normalise the index component variables, ii) using a covariance matrix that is calculated using observations from the base group and iii) is normalised such that the index will have a mean of zero and a standard deviation of one for the base group.
+{cmdab:norm:alise} specifies that the index is calculated i) using the base group mean to normalise the index component variables and ii) is normalised such that the index will have a mean of zero and a standard deviation of one for the base group.
 
 {p 4 4 2}
 {cmdab:nop:airwise} specifies that the covariance matrix is created using only the set of observations for which there are no missing values for all index component variables.
 
-{title:Examples}
+{p 4 4 2}
+{cmdab:nos:ingle} replaces as missing the index for any observation with only a single variable that is not missing out of all index component variables in {it:varlist}.
+
+{p 4 4 2}
+{cmdab:covn:ormalise} specifies that the covariance matrix is created only from the reference group.
+
+{title:Examples} specifies that the index is calculated using a covariance matrix that is calculated using observations from the base group and
 
 {p 4 4 2}
 Suppose you want to make an economic index ({it:econ_index}) with the following index components: {it:income}, {it:assets}, {it:consumption}. The base group is defined as the control group identified with a dummy variable called {it:control}. Additionally, the data has multiple rounds identified with the variable {it:round}. Therefore, the following code would be run:
